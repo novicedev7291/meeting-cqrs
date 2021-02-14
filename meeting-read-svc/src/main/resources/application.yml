@@ -1,0 +1,12 @@
+server:
+    port: 8082
+spring:
+    application:
+        name: meeting-read-svc
+    data:
+        mongodb:
+            uri: mongodb://root:root@${DB_CONTAINER}/meeting
+    jackson:
+        default-property-inclusion: NON_NULL
+        serialization:
+            write-dates-as-timestamps: false

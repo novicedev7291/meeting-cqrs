@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+    event_store:
+        build: ./postgres
+        image: 'postgres-custom-13.2-alpine'
+        container_name: 'meeting_event_store'
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=root
+        ports:
+            - '5432:5432'
+        network_mode: host
+    meeting_db:
+        image: 'mongo:4.0.22'
+        container_name: 'meeting_read_store'
+        restart: always
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=root
+            - MONGO_INITDB_DATABASE=meeting
+        ports:
+            - '27017:27017'
+        networks:
+            - meeting_net
+    message_broker:
+        image: 'rabbitmq:3.8'
+        container_name: 'meeting_queue'
+        environment:
+            - RABBITMQ_DEFAULT_USER=root
+            - RABBITMQ_DEFAULT_PASS=root
+        ports:
+            - '5672:5672'
+        networks:
+            - meeting_net
+    meeting_svc:
+        build: ./meeting-svc
+        container_name: meeting_svc
+        ports:
+            - '8081:8081'
+        environment:
+            - DB_CONTAINER=meeting_event_store
+        depends_on:
+            - event_store
+            - message_broker
+        networks:
+            - meeting_net
+    meeting_read_svc:
+        build: ./meeting-read-svc
+        container_name: meeting_read_svc
+        ports:
+            - '8082:8082'
+        environment:
+            - DB_CONTAINER=meeting_read_store
+        depends_on:
+            - meeting_db
+            - message_broker
+        networks:
+            - meeting_net
