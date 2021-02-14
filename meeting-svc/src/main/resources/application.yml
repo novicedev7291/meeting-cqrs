@@ -1,0 +1,19 @@
+server:
+    port: 8081
+spring:
+    application:
+        name: meeting-svc
+    data:
+        datasource:
+            driverClassName: com.mysql.cj.jdbc.Driver
+            url: jdbc:postgresql://${DB_CONTAINER}/meeting
+            username: root
+            password: root
+            jpa:
+                show-sql: true
+                hibernate:
+                    ddl-auto: validate
+    jackson:
+        default-property-inclusion: NON_NULL
+        serialization:
+            write-dates-as-timestamps: false
