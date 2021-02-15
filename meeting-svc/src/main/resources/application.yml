@@ -6,7 +6,6 @@ spring:
     data:
         datasource:
             driverClassName: com.mysql.cj.jdbc.Driver
-            url: jdbc:postgresql://${DB_CONTAINER}/meeting
             username: root
             password: root
             jpa:
@@ -17,3 +16,10 @@ spring:
         default-property-inclusion: NON_NULL
         serialization:
             write-dates-as-timestamps: false
+logging:
+    level:
+        org:
+            springframework:
+                web: info
+            hibernate:
+                SQL: info
