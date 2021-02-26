@@ -1,4 +1,4 @@
-package com.example.meeting.core.common;
+package com.example.meeting.core.core;
 
 import lombok.Value;
 

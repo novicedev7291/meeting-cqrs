@@ -1,7 +1,10 @@
 package com.example.meeting.core.meeting;
 
-import com.example.meeting.core.common.Name;
+import com.example.meeting.core.core.Name;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor(staticName = "of")
 public class Person {
-    Name name;
+    private Name name;
+    private String email;
 }

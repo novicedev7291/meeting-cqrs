@@ -1,6 +1,6 @@
 package com.example.meeting.core.user;
 
-import com.example.meeting.core.common.Name;
+import com.example.meeting.core.core.Name;
 import lombok.Value;
 
 @Value(staticConstructor = "of")
