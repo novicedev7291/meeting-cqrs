@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 class MeetingCreated implements Event {
      MeetingId aggregateId;
      String title;
-     Organiser organiser;
+     Person organiser;
      LocalDateTime occurredOn;
 }

@@ -4,6 +4,7 @@ import com.example.meeting.core.core.Aggregate;
 import com.example.meeting.core.core.Event;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,9 +16,10 @@ import static io.vavr.Predicates.instanceOf;
 class Meeting extends Aggregate<String, MeetingId> {
     private String title;
     private String description;
-    private Organiser organiser;
+    private Person organiser;
     private LocalDateTime createdOn;
-    private Set<Person> persons;
+    private LocalDateTime scheduledAt;
+    private final Set<Person> persons = new HashSet<>();
 
     private Meeting() {
     }
@@ -25,7 +27,9 @@ class Meeting extends Aggregate<String, MeetingId> {
     public void when(Event event) {
         Match(event).of(
                 Case($(instanceOf(MeetingCreated.class)), this::init),
-                Case($(instanceOf(DescriptionChanged.class)), this::changeDescription)
+                Case($(instanceOf(DescriptionChanged.class)), this::changeDescription),
+                Case($(instanceOf(MeetingScheduled.class)), this::scheduleMeeting),
+                Case($(instanceOf(PersonAccepted.class)), this::addPerson)
         );
     }
 
@@ -40,6 +44,28 @@ class Meeting extends Aggregate<String, MeetingId> {
     private boolean changeDescription(DescriptionChanged event) {
         this.description = event.getDescription();
         return true;
+    }
+
+    private boolean scheduleMeeting(MeetingScheduled event) {
+        this.scheduledAt = event.getScheduledOn();
+        return true;
+    }
+
+    private boolean addPerson(PersonAccepted event) {
+        persons.add(event.getPerson());
+        return true;
+    }
+
+    public void accept(Person person) {
+        applyNew(PersonAccepted.of(id, person, LocalDateTime.now()));
+    }
+
+    public void changeDescription(AddDescription command) {
+       applyNew(DescriptionChanged.of(id, command.getDescription(), LocalDateTime.now()));
+    }
+
+    public void schedule(ScheduleMeeting command) {
+        applyNew(MeetingScheduled.of(id, command.scheduleOn, LocalDateTime.now()));
     }
 
     public static Meeting create(CreateMeeting command) {
