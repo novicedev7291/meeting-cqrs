@@ -10,4 +10,5 @@ class MeetingScheduled implements Event {
     MeetingId aggregateId;
     LocalDateTime scheduledOn;
     LocalDateTime occurredOn;
+    Integer version;
 }

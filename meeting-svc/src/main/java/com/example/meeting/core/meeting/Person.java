@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor(staticName = "of")
 public class Person {
+    private PersonId id;
     private Name name;
     private String email;
 }

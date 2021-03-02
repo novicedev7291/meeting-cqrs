@@ -10,4 +10,5 @@ class DescriptionChanged implements Event {
     MeetingId aggregateId;
     String description;
     LocalDateTime occurredOn;
+    Integer version;
 }

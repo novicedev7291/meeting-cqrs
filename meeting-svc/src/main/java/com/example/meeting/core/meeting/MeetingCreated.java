@@ -11,4 +11,5 @@ class MeetingCreated implements Event {
      String title;
      Person organiser;
      LocalDateTime occurredOn;
+     Integer version;
 }

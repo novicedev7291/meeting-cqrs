@@ -10,4 +10,5 @@ class PersonAccepted implements Event {
     MeetingId aggregateId;
     Person person;
     LocalDateTime occurredOn;
+    Integer version;
 }

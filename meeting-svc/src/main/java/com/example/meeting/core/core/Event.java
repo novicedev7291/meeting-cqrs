@@ -5,4 +5,5 @@ import java.time.LocalDateTime;
 public interface Event {
     AggregateId<?> getAggregateId();
     LocalDateTime getOccurredOn();
+    Integer getVersion();
 }
